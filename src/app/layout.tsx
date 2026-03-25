@@ -32,7 +32,7 @@ export default function RootLayout({ children }: {
             fontFamily: 'inherit',
             fontSize: '14px',
           }}
-          />
+        />
       </body>
     </html>
   );

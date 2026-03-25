@@ -30,36 +30,66 @@ export default function Game1() {
 
         return () => clearInterval(moleTimer);
     }, [gameActive]);
-    
+
     useEffect(() => {
-        if (!gameActive) return;
+    if (!gameActive) return;
 
-        const countdown = setInterval(() => {
-            setTimeLeft(prev => {
-                if (prev <= 1) {
-                    clearInterval(countdown);
-                    setGameActive(false);
+    const countdown = setInterval(() => {
+        setTimeLeft(prev => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
 
-                    toast.info('Waktu habis!', {
-                        autoClose: 1500,
-                    });
-                    
-                    if (score > highScore) {
-                        localStorage.setItem('whack_highscore', score.toString());
-                        setHighScore(score);
-                        toast.success('🎉 New High Score!', {
-                            autoClose: 1500,
-                        });
-                    }
+    return () => clearInterval(countdown);
+}, [gameActive]);
 
-                    return 0;
-                }
-                return prev - 1;
+    useEffect(() => {
+    if (timeLeft === 0 && gameActive) {
+        setGameActive(false);
+
+        toast.info('⏰ Waktu habis!', {
+            autoClose: 1500,
+        });
+
+        if (score > highScore) {
+            localStorage.setItem('whack_highscore', score.toString());
+            setHighScore(score);
+
+            toast.success('🎉 New High Score!', {
+                autoClose: 1500,
             });
-        }, 1000);
+        }
+    }
+}, [timeLeft, gameActive, score, highScore]);
+    // useEffect(() => {
+    //     if (!gameActive) return;
+
+    //     const countdown = setInterval(() => {
+    //         setTimeLeft(prev => {
+    //             if (prev <= 1) {
+    //                 clearInterval(countdown);
+    //                 setGameActive(false);
+
+    //                 toast.info('⏰Waktu habis!', {
+    //                     autoClose: 1500,
+    //                 });
+                    
+    //                 if (score > highScore) {
+    //                     localStorage.setItem('whack_highscore', score.toString());
+    //                     setHighScore(score);
+    //                     toast.success('🎉 New High Score!', {
+    //                         autoClose: 1500,
+    //                     });
+    //                 }
+
+    //                 return 0;
+    //             }
+    //             return prev - 1;
+    //         });
+    //     }, 1000);
         
-        return () => clearInterval(countdown);
-    }, [gameActive, score, highScore]);
+    //     return () => clearInterval(countdown);
+    // }, [gameActive, score, highScore]);
+
+
 
     const hitMole = (index: number) => {
         if (index === moleIndex && gameActive) {
@@ -85,7 +115,7 @@ export default function Game1() {
 
                 <div className='game-stats'>
                     <div className='score'>🏆Score: {score}</div>
-                    <div className='timer'>⏱️Time: {timeLeft}s</div>
+                    <div className='timer'>⏱️Time: {timeLeft}</div>
                 </div>
 
                 <div className='highscore'>
@@ -93,7 +123,7 @@ export default function Game1() {
                 </div>
 
                 {!gameActive && (
-                    <button className='start-button' onClick={startGame}>
+                    <button className='start-btn' onClick={startGame}>
                         🚀Start Game
                     </button>
                 )}
