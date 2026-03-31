@@ -58,7 +58,6 @@ export default function RegisterPage() {
     setCaptcha(generateCaptcha());
   }, []);
 
-  // PASSWORD STRENGTH
   const calculateStrength = (password: string) => {
     let score = 0;
 
@@ -81,7 +80,6 @@ export default function RegisterPage() {
     setConfirmStrength(score);
   };
 
-  // WARNA BAR
   const getColor = (value: number) => {
     if (value <= 25) return "bg-red-500";
     if (value <= 50) return "bg-yellow-500";
@@ -107,7 +105,6 @@ export default function RegisterPage() {
 
     const newErrors: ErrorObject = {};
 
-    // USERNAME
     if (!formData.username) {
       newErrors.username = "Username wajib diisi";
     } else if (formData.username.length < 3) {
@@ -116,29 +113,24 @@ export default function RegisterPage() {
       newErrors.username = "Maksimal 8 karakter";
     }
 
-    // EMAIL
     if (!formData.email || !formData.email.endsWith("@gmail.com")) {
       newErrors.email = "Format email tidak valid";
     }
 
-    // PHONE
     if (!formData.phone || formData.phone.length < 10) {
       newErrors.phone = "Nomor telepon minimal 10 karakter";
     }
 
-    // PASSWORD
     if (!formData.password) {
       newErrors.password = "Password wajib diisi";
     }
 
-    // CONFIRM PASSWORD
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = "Konfirmasi password wajib diisi";
     } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Konfirmasi password tidak cocok";
     }
 
-    // CAPTCHA
     if (!formData.captchaInput) {
       newErrors.captcha = "Captcha wajib diisi";
     } else if (formData.captchaInput !== captcha) {
@@ -162,7 +154,6 @@ export default function RegisterPage() {
     <AuthFormWrapper title="Register">
       <form onSubmit={handleSubmit} className="space-y-5 w-full">
 
-        {/* USERNAME */}
         <div>
           <label className="text-sm font-medium">Username (max 8 karakter)</label>
           <input
@@ -175,10 +166,9 @@ export default function RegisterPage() {
               errors.username ? "border-red-500" : "border-gray-300"
             }`}
           />
-          {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
+          {errors.username && <p className="text-red-500 italic text-sm">{errors.username}</p>}
         </div>
 
-        {/* EMAIL */}
         <div>
           <label className="text-sm font-medium">Email</label>
           <input
@@ -193,7 +183,6 @@ export default function RegisterPage() {
           {errors.email && <p className="text-red-500 italic text-sm">{errors.email}</p>}
         </div>
 
-        {/* PHONE */}
         <div>
           <label className="text-sm font-medium">Nomor Telepon</label>
           <input
@@ -205,10 +194,9 @@ export default function RegisterPage() {
               errors.phone ? "border-red-500" : "border-gray-300"
             }`}
           />
-          {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
+          {errors.phone && <p className="text-red-500 italic text-sm">{errors.phone}</p>}
         </div>
 
-        {/* PASSWORD */}
         <div className="relative">
           <label className="text-sm font-medium">Password</label>
           <input
@@ -240,7 +228,6 @@ export default function RegisterPage() {
           )}
         </div>
 
-        {/* CONFIRM PASSWORD */}
         <div className="relative">
           <label className="text-sm font-medium">Konfirmasi Password</label>
           <input
@@ -276,7 +263,6 @@ export default function RegisterPage() {
           )}
         </div>
 
-        {/* CAPTCHA */}
         <div>
           <div className="flex items-center gap-2 mt-1">
             <span className="text-sm font-medium">Captcha:</span>
@@ -312,7 +298,6 @@ export default function RegisterPage() {
           Register
         </button>
 
-        <p className="text-center text-sm text-gray-500">Atau masuk dengan</p>
         <SocialAuth />
 
         <p className="text-center text-sm">

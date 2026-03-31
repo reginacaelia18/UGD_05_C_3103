@@ -109,7 +109,6 @@ const LoginPage = () => {
 
       <form onSubmit={handleSubmit} className="space-y-5 w-full">
 
-        {/* EMAIL */}
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700">Email</label>
           <input
@@ -122,7 +121,6 @@ const LoginPage = () => {
           {errors.email && <p className="text-red-600 text-sm italic">{errors.email}</p>}
         </div>
 
-        {/* PASSWORD (DITAMBAH SHOW/HIDE) */}
         <div className="space-y-2 relative">
           <label className="text-sm font-medium text-gray-700">Password</label>
           <input
@@ -145,7 +143,6 @@ const LoginPage = () => {
           {errors.password && <p className="text-red-600 text-sm italic">{errors.password}</p>}
         </div>
 
-        {/* REMEMBER + FORGOT */}
         <div className="flex items-center justify-between">
           <label className="flex items-center text-sm text-gray-700">
             <input
@@ -164,7 +161,6 @@ const LoginPage = () => {
           </Link>
         </div>
 
-        {/* CAPTCHA */}
         <div className="space-y-2">
           <div className="flex items-center space-x-3">
             <span className="text-sm font-medium">Captcha:</span>
