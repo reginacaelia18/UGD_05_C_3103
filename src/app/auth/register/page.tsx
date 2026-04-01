@@ -100,6 +100,19 @@ export default function RegisterPage() {
     setErrors(prev => ({ ...prev, [name]: undefined }));
   };
 
+  const handleEmailInvalid = (e: React.InvalidEvent<HTMLInputElement>) => {
+  if (formData.email === "") {
+    e.preventDefault();
+    return;
+  }
+
+  if (!formData.email.includes("@")) {
+    e.currentTarget.setCustomValidity(
+      `Please include an '@' in the email address. '${formData.email}' is missing an '@'.`
+    );
+  }
+};
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -113,8 +126,13 @@ export default function RegisterPage() {
       newErrors.username = "Maksimal 8 karakter";
     }
 
-    if (!formData.email || !formData.email.endsWith("@gmail.com")) {
+    if (!formData.email) {
+      newErrors.email = "Email wajib diisi";
+    } else if (!formData.email.includes("@")) {
       newErrors.email = "Format email tidak valid";
+    } else if (!formData.email.endsWith("@gmail.com")) {
+      newErrors.email = "Format email tidak valid";
+      
     }
 
     if (!formData.phone || formData.phone.length < 10) {
@@ -172,14 +190,18 @@ export default function RegisterPage() {
         <div>
           <label className="text-sm font-medium">Email</label>
           <input
+            type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
+            onInvalid={handleEmailInvalid}
+            onInput={(e) => e.currentTarget.setCustomValidity("")}
             placeholder="Masukkan email"
             className={`w-full px-4 py-2 rounded border ${
               errors.email ? "border-red-500" : "border-gray-300"
             }`}
           />
+
           {errors.email && <p className="text-red-500 italic text-sm">{errors.email}</p>}
         </div>
 
@@ -225,6 +247,10 @@ export default function RegisterPage() {
               </div>
               <p className="text-sm">Strength: {strength}%</p>
             </>
+          )}
+
+          {errors.password && (
+            <p className="text-red-500 italic text-sm">{errors.password}</p>
           )}
         </div>
 
