@@ -41,9 +41,8 @@ const LoginPage = () => {
 
   const [errors, setErrors] = useState<ErrorObject>({});
   const [attempts, setAttempts] = useState(3);
-
   const [captcha, setCaptcha] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // ✅ tambahan
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     setCaptcha(generateCaptcha());
@@ -60,13 +59,22 @@ const LoginPage = () => {
 
     const newErrors: ErrorObject = {};
 
-    if (!formData.email) newErrors.email = "Email tidak boleh kosong";
-    if (!formData.password) newErrors.password = "Password tidak boleh kosong";
+    if (!formData.email) {
+      newErrors.email = "Email tidak boleh kosong";
+    } else if (formData.email !== "241713103@gmail.com") {
+      newErrors.email = "Email harus sesuai (241713103@gmail.com)";
+    }
 
-    if (formData.captchaInput.trim() === "") {
-      newErrors.captcha = 'Captcha belum diisi';
+    if (!formData.password) {
+      newErrors.password = "Password tidak boleh kosong";
+    } else if (formData.password !== "241713103") {
+      newErrors.password = "Password harus sesuai (241713103)";
+    }
+
+    if (!formData.captchaInput) {
+      newErrors.captcha = "Captcha wajib diisi";
     } else if (formData.captchaInput !== captcha) {
-      newErrors.captcha = "Captcha salah";
+      newErrors.captcha = "Harus sesuai dengan captcha yang ditampilkan";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -124,7 +132,7 @@ const LoginPage = () => {
         <div className="space-y-2 relative">
           <label className="text-sm font-medium text-gray-700">Password</label>
           <input
-            type={showPassword ? "text" : "password"} // ✅ perubahan kecil
+            type={showPassword ? "text" : "password"}
             name="password"
             value={formData.password}
             onChange={handleChange}
@@ -133,12 +141,12 @@ const LoginPage = () => {
           />
 
           <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-8 text-gray-500"
-             >
-             {showPassword ? <FiEyeOff /> : <FiEye />}
-           </button>
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-8 text-gray-500"
+          >
+            {showPassword ? <FiEyeOff /> : <FiEye />}
+          </button>
 
           {errors.password && <p className="text-red-600 text-sm italic">{errors.password}</p>}
         </div>
@@ -173,7 +181,6 @@ const LoginPage = () => {
               type="button"
               onClick={() => setCaptcha(generateCaptcha())}
               className="text-gray-600 hover:text-blue-600 transition duration-300 hover:rotate-180 text-lg"
-              title="Refresh Captcha"
             >
               <FiRefreshCw />
             </button>
